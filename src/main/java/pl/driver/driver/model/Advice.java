@@ -1,10 +1,15 @@
 package pl.driver.driver.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
+@NoArgsConstructor
+@Data
 @Entity
 public class Advice {
 
@@ -13,11 +18,15 @@ public class Advice {
     private Long id;
     private String title;
     private String description;
-    private String attachedFile;
-    private LocalDate dateOfPublic;
-    private LocalTime timeOfPublic;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime creationDate;
+
+    @ManyToMany
+    private List<Attachment> attachments;
     @OneToMany
-    private List<Question> questions;
+    private List<Quiz> quizzes;
+    @OneToOne
+    private Quiz currentQuiz;
 
 }
